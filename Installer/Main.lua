@@ -17,11 +17,11 @@ local EEPROMProxy, internetProxy, GPUProxy =
 GPUProxy.bind(getComponentAddress("screen"))
 local screenWidth, screenHeight = GPUProxy.getResolution()
 
-local repositoryURL = "https://raw.githubusercontent.com/youaregod666/IMineOS_BIOS/master/"
+local repositoryURL = "https://raw.githubusercontent.com/youaregod666/Test-MineOS-Setup/master/"
 local installerURL = "Installer/"
 local EFIURL = "EFI/Minified.lua"
 
-local installerPath = "/MineOS installer/"
+local installerPath = "/IMineOS installer/"
 local installerPicturesPath = installerPath .. "Installer/Pictures/"
 local OSPath = "/"
 
@@ -42,7 +42,7 @@ end
 
 local function title()
 	local y = math.floor(screenHeight / 2 - 1)
-	centrizedText(y, 0x2D2D2D, "Starting IMineOS Setup")
+	centrizedText(y, 0x2D2D2D, "Starting Test-IMineOS-Setup")
 
 	return y + 2
 end
@@ -507,17 +507,17 @@ addStage(function()
 end)
 
 -- Downloads customization stage
-addStage(function()
-	nextButton.disabled = false
-
-	addImage(0, 0, "Settings")
-	addTitle(0x696969, localization.customize)
-
-	layout:addChild(wallpapersSwitchAndLabel)
-	layout:addChild(screensaversSwitchAndLabel)
-	layout:addChild(applicationsSwitchAndLabel)
-	layout:addChild(localizationsSwitchAndLabel)
-end)
+--addStage(function()
+--	nextButton.disabled = false
+--
+--	addImage(0, 0, "Settings")
+--	addTitle(0x696969, localization.customize)
+--
+--	layout:addChild(wallpapersSwitchAndLabel)
+--	layout:addChild(screensaversSwitchAndLabel)
+--	layout:addChild(applicationsSwitchAndLabel)
+--	layout:addChild(localizationsSwitchAndLabel)
+--end)
 
 -- License acception stage
 addStage(function()
@@ -540,9 +540,9 @@ addStage(function()
 	workspace:draw()
 
 	-- Renaming if possible
-	if not selectedFilesystemProxy.getLabel() then
-		selectedFilesystemProxy.setLabel("MineOS HDD")
-	end
+	--if not selectedFilesystemProxy.getLabel() then
+	--	selectedFilesystemProxy.setLabel("MineOS HDD")
+	--end
 
 	local function switchProxy(runnable)
 		filesystem.setProxy(selectedFilesystemProxy)
@@ -551,98 +551,98 @@ addStage(function()
 	end
 
 	-- Creating system paths
-	local userSettings, userPaths
-	switchProxy(function()
-		paths.create(paths.system)
-		userSettings, userPaths = system.createUser(
-			usernameInput.text,
-			localizationComboBox:getItem(localizationComboBox.selectedItem).text,
-			not passwordSwitchAndLabel.switch.state and passwordInput.text,
-			wallpapersSwitchAndLabel.switch.state,
-			screensaversSwitchAndLabel.switch.state
-		)
-	end)
+	--local userSettings, userPaths
+	--switchProxy(function()
+	--	paths.create(paths.system)
+	--	userSettings, userPaths = system.createUser(
+	--		usernameInput.text,
+	--		localizationComboBox:getItem(localizationComboBox.selectedItem).text,
+	--		not passwordSwitchAndLabel.switch.state and passwordInput.text,
+	--		wallpapersSwitchAndLabel.switch.state,
+	--		screensaversSwitchAndLabel.switch.state
+	--	)
+	--end)
 
 	-- Flashing EEPROM
-	layout:removeChildren()
-	addImage(1, 1, "EEPROM")
-	addTitle(0x969696, localization.flashing)
-	workspace:draw()
+	--layout:removeChildren()
+	--addImage(1, 1, "EEPROM")
+	--addTitle(0x969696, localization.flashing)
+	--workspace:draw()
 	
-	EEPROMProxy.set(request(EFIURL))
-	EEPROMProxy.setLabel("MineOS EFI")
-	EEPROMProxy.setData(selectedFilesystemProxy.address)
+	--EEPROMProxy.set(request(EFIURL))
+	--EEPROMProxy.setLabel("MineOS EFI")
+	--EEPROMProxy.setData(selectedFilesystemProxy.address)
 
 	-- Downloading files
-	layout:removeChildren()
-	addImage(3, 2, "Downloading")
+	--layout:removeChildren()
+	--addImage(3, 2, "Downloading")
 
-	local container = layout:addChild(GUI.container(1, 1, layout.width - 20, 2))
-	local progressBar = container:addChild(GUI.progressBar(1, 1, container.width, 0x66B6FF, 0xD2D2D2, 0xA5A5A5, 0, true, false))
-	local cyka = container:addChild(GUI.label(1, 2, container.width, 1, 0x969696, "")):setAlignment(GUI.ALIGNMENT_HORIZONTAL_CENTER, GUI.ALIGNMENT_VERTICAL_TOP)
+	--local container = layout:addChild(GUI.container(1, 1, layout.width - 20, 2))
+	--local progressBar = container:addChild(GUI.progressBar(1, 1, container.width, 0x66B6FF, 0xD2D2D2, 0xA5A5A5, 0, true, false))
+	--local cyka = container:addChild(GUI.label(1, 2, container.width, 1, 0x969696, "")):setAlignment(GUI.ALIGNMENT_HORIZONTAL_CENTER, GUI.ALIGNMENT_VERTICAL_TOP)
 
 	-- Creating final filelist of things to download
-	local downloadList = {}
+	--local downloadList = {}
 
-	local function getData(item)
-		if type(item) == "table" then
-			return item.path, item.id, item.version, item.shortcut
-		else
-			return item
-		end
-	end
+	--local function getData(item)
+	--	if type(item) == "table" then
+	--		return item.path, item.id, item.version, item.shortcut
+	--	else
+	--		return item
+	--	end
+	--end
 
-	local function addToList(state, key)
-		if state then
-			local selectedLocalization, path, localizationName = localizationComboBox:getItem(localizationComboBox.selectedItem).text
-			
-			for i = 1, #files[key] do
-				path = getData(files[key][i])
-
-				if filesystem.extension(path) == ".lang" then
-					localizationName = filesystem.hideExtension(filesystem.name(path))
-
-					if
-						-- If ALL loacalizations need to be downloaded
-						localizationsSwitchAndLabel.switch.state or
-						-- If it's required localization file
-						localizationName == selectedLocalization or
-						-- Downloading English "just in case" for non-english localizations
-						selectedLocalization ~= "English" and localizationName == "English"
-					then
-						table.insert(downloadList, files[key][i])
-					end
-				else
-					table.insert(downloadList, files[key][i])
-				end
-			end
-		end
-	end
-
-	addToList(true, "required")
-	addToList(true, "localizations")
-	addToList(applicationsSwitchAndLabel.switch.state, "optional")
-	addToList(wallpapersSwitchAndLabel.switch.state, "wallpapers")
-	addToList(screensaversSwitchAndLabel.switch.state, "screensavers")
+	--local function addToList(state, key)
+	--	if state then
+	--		local selectedLocalization, path, localizationName = localizationComboBox:getItem(localizationComboBox.selectedItem).text
+	--		
+	--		for i = 1, #files[key] do
+	--			path = getData(files[key][i])
+--
+--				if filesystem.extension(path) == ".lang" then
+--					localizationName = filesystem.hideExtension(filesystem.name(path))
+--
+--					if
+--						-- If ALL loacalizations need to be downloaded
+--						localizationsSwitchAndLabel.switch.state or
+--						-- If it's required localization file
+--						localizationName == selectedLocalization or
+--						-- Downloading English "just in case" for non-english localizations
+--						selectedLocalization ~= "English" and localizationName == "English"
+--					then
+--						table.insert(downloadList, files[key][i])
+--					end
+--				else
+--					table.insert(downloadList, files[key][i])
+--				end
+--			end
+--		end
+--	end
+--
+--	addToList(true, "required")
+--	addToList(true, "localizations")
+--	addToList(applicationsSwitchAndLabel.switch.state, "optional")
+--	addToList(wallpapersSwitchAndLabel.switch.state, "wallpapers")
+--	addToList(screensaversSwitchAndLabel.switch.state, "screensavers")
 
 	-- Downloading files from created list
-	local versions, path, id, version, shortcut = {}
-	for i = 1, #downloadList do
-		path, id, version, shortcut = getData(downloadList[i])
-
-		cyka.text = text.limit(localization.installing .. " \"" .. path .. "\"", container.width, "center")
-		workspace:draw()
-
+--	local versions, path, id, version, shortcut = {}
+--	for i = 1, #downloadList do
+--		path, id, version, shortcut = getData(downloadList[i])
+--
+--		cyka.text = text.limit(localization.installing .. " \"" .. path .. "\"", container.width, "center")
+--		workspace:draw()
+-
 		-- Download file
-		download(path, OSPath .. path)
-
+--		download(path, OSPath .. path)
+--
 		-- Adding system versions data
-		if id then
-			versions[id] = {
-				path = OSPath .. path,
-				version = version or 1,
-			}
-		end
+--		if id then
+--			versions[id] = {
+--				path = OSPath .. path,
+--				version = version or 1,
+--			}
+--		end
 
 		-- Create shortcut if possible
 		if shortcut then
@@ -654,14 +654,14 @@ addStage(function()
 			end)
 		end
 
-		progressBar.value = math.floor(i / #downloadList * 100)
-		workspace:draw()
+		--progressBar.value = math.floor(i / #downloadList * 100)
+		--workspace:draw()
 	end
 
 	-- Saving system versions
-	switchProxy(function()
-		filesystem.writeTable(paths.system.versions, versions, true)
-	end)
+	--switchProxy(function()
+	--	filesystem.writeTable(paths.system.versions, versions, true)
+	--end)
 
 	-- Done info
 	layout:removeChildren()

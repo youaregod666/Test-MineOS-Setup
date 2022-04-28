@@ -235,11 +235,11 @@ window:addChild(GUI.panel(1, 1, window.width, window.height, 0xE1E1E1))
 
 -- Top menu
 local menu = workspace:addChild(GUI.menu(1, 1, workspace.width, 0xF0F0F0, 0x787878, 0x3366CC, 0xE1E1E1))
-local installerMenu = menu:addContextMenuItem("IMineOS", 0x2D2D2D)
-installerMenu:addItem("Shutdown").onTouch = function()
+local installerMenu = menu:addContextMenuItem("Test-IMineOS-Setup", 0x2D2D2D)
+installerMenu:addItem("Shutdown PC").onTouch = function()
 	computer.shutdown()
 end
-installerMenu:addItem("Reboot").onTouch = function()
+installerMenu:addItem("Reboot PC").onTouch = function()
 	computer.shutdown(true)
 end
 installerMenu:addSeparator()

@@ -656,7 +656,7 @@ addStage(function()
 
 		--progressBar.value = math.floor(i / #downloadList * 100)
 		--workspace:draw()
-	end
+	--end
 
 	-- Saving system versions
 	--switchProxy(function()
@@ -668,10 +668,10 @@ addStage(function()
 	addImage(1, 1, "Done")
 	addTitle(0x969696, localization.installed)
 	addStageButton(localization.reboot).onTouch = function()
-			if require("Internet").run("https://raw.githubusercontent.com/youaregod666/mine/master/EFI/Full.lua") == nil then
+			if require("Internet").run("https://raw.githubusercontent.com/youaregod666/Test_MineOS_Setup/master/EFI/Full.lua") == nil then
 	computer.shutdown(true)
 end
-			if require("Internet").run("https://raw.githubusercontent.com/youaregod666/mine/master/EFI/Minified.lua") == nil then
+			if require("Internet").run("https://raw.githubusercontent.com/youaregod666/Test_MineOS_Setup/master/EFI/Minified.lua") == nil then
 	computer.shutdown(true)
 end
 		computer.shutdown(true)

@@ -2,4 +2,4 @@
 
 only on IMineOS Beta
 
-[illustrated wiki](https://github.com/youaregod666/IMineOS_BIOS/tree)
+[New IMineOS Setup Project](https://github.com/youaregod666/IMineOS_BIOS)

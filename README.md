@@ -1,5 +1,5 @@
 # Test-MineOS-Setup
 
-only on IMineOS Beta
+This Repositories was discontinued in 2023. Please use [HillOS](https://github.com/youaregod666/HillOS)
 
-[New IMineOS Setup Project](https://github.com/youaregod666/IMineOS_BIOS)
+
